@@ -1,8 +1,15 @@
 import { Box, List, ListItem, Divider, Grid, Typography } from "@mui/material";
 import { NavBar } from "./NavBar";
+import useBoatStore from "../stores/boatStore";
+import dayjs from "dayjs";
 
 export const ResultList = () => {
-  const testItems = [...Array(100).keys()];
+  const boats = useBoatStore((state) => state.boatList);
+  const startTime = useBoatStore((state) => dayjs(state.startTime));
+
+  //setStartTime(dayjs());
+  console.log(typeof startTime);
+
   return (
     <>
       <NavBar pageTitle="Calculated Results" />
@@ -42,19 +49,19 @@ export const ResultList = () => {
               maxHeight: "100vh",
             }}
           >
-            {testItems.map((item) => (
-              <Box key={item}>
+            {boats.map((boat) => (
+              <Box key={boat.id} hidden={!boat.visible}>
                 <ListItem>
                   <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2}>
                       <Grid item xs={5}>
-                        D Zero
+                        {boat.boatName}
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography align="left">{item}</Typography>
+                        <Typography align="left">{boat.boatPY}</Typography>
                       </Grid>
                       <Grid item xs={4}>
-                        HH:mm:ss
+                        {startTime.format("HH:mm:ss")}
                       </Grid>
                     </Grid>
                   </Box>

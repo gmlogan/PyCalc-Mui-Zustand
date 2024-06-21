@@ -5,12 +5,11 @@ import App from "./App.tsx";
 // or
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
+import Layout from "./pages/Layout.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <CssBaseline />
-      <App />
-    </BrowserRouter>
+    <CssBaseline />
+    <App />
   </React.StrictMode>
 );
