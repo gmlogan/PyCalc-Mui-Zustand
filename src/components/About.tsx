@@ -4,7 +4,7 @@ import { NavBar } from "./NavBar";
 export const About = () => {
   return (
     <>
-      <NavBar pageTitle="About PyCalc" />
+      <NavBar pageTitle="About PyCalc with Zustand" />
       <Box>About</Box>
     </>
   );
