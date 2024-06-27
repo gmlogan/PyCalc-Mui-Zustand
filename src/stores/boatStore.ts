@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist, createJSONStorage } from "zustand/middleware";
-import React from "react";
+import { persist, createJSONStorage } from "zustand/middleware";
 import dayjs, { Dayjs } from "dayjs";
 //import data for boats
 
@@ -17,14 +16,14 @@ interface boatType {
 }
 //create an array of objects each of which are of type boatType
 
-type BoatState = {
+interface BoatState {
   boatList: Array<boatType>;
   startTime: Dayjs;
   setStartTime: (s: Dayjs) => void;
   endTime: Dayjs;
   setEndTime: (s: Dayjs) => void;
   toggleVisibility: (id: number) => void;
-};
+}
 
 const useBoatStore = create(
   persist<BoatState>(
@@ -34,11 +33,11 @@ const useBoatStore = create(
       startTime: dayjs(),
       endTime: dayjs(),
       setStartTime: (s) =>
-        set((state) => ({
+        set(() => ({
           startTime: s,
         })),
       setEndTime: (s) =>
-        set((state) => ({
+        set(() => ({
           endTime: s,
         })),
       toggleVisibility: (id) =>
