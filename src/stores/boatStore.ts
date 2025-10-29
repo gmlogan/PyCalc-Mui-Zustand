@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 import dayjs, { Dayjs } from "dayjs";
 //import data for boats
 
@@ -26,32 +27,29 @@ interface BoatState {
 }
 
 const useBoatStore = create(
-  persist<BoatState>(
-    (set) => ({
+  persist(
+    immer<BoatState>((set) => ({
       boatList: listOfBoats,
 
       startTime: dayjs(),
       endTime: dayjs(),
       setStartTime: (s) =>
-        set(() => ({
-          startTime: s,
-        })),
+        set((state) => {
+          state.startTime = s;
+        }),
       setEndTime: (s) =>
-        set(() => ({
-          endTime: s,
-        })),
+        set((state) => {
+          state.endTime = s;
+        }),
       toggleVisibility: (id) =>
-        set((state) => ({
-          endTime: dayjs(),
-          boatList: state.boatList.map((boat) => {
-            if (id === boat.id) {
-              return { ...boat, visible: !boat.visible };
-            } else {
-              return boat;
-            }
-          }),
-        })),
-    }),
+        set((state) => {
+          state.endTime = dayjs();
+          const boat = state.boatList.find((b) => b.id === id);
+          if (boat) {
+            boat.visible = !boat.visible;
+          }
+        }),
+    })),
     {
       name: "boat-storage", // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
